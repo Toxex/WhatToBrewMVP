@@ -4,7 +4,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Image } from "expo-image";
 import { StyleSheet } from "react-native";
 
-export default function generatorScreen() {
+export default function GeneratorScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}

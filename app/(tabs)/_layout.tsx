@@ -37,7 +37,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="inventory"
+        name="malts"
         options={{
           title: "Inventory",
           tabBarIcon: ({ color }) => (
@@ -47,7 +47,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="index"
+        name="hops"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
@@ -56,9 +56,18 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="yeasts"
         options={{
           title: "Explore",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="paperplane.fill" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="debug"
+        options={{
+          title: "Debug",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="paperplane.fill" color={color} />
           ),
