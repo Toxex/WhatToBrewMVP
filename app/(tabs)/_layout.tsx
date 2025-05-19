@@ -28,15 +28,6 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="inventory"
-        options={{
-          title: "Inventory",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="backpack" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="generator"
         options={{
           title: "Generate Recipe",
@@ -45,6 +36,16 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="inventory"
+        options={{
+          title: "Inventory",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="backpack" color={color} />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="index"
         options={{
