@@ -28,11 +28,11 @@ export default function MaltScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerText="Debug"
+      headerText="Malts"
       headerImage={
         <Image
-          source={require("@/assets/images/inventory-screen.png")}
-          style={styles.inventory}
+          source={require("@/assets/images/barley2.png")}
+          style={styles.maltLogo}
         />
       }
     >
@@ -58,12 +58,11 @@ export default function MaltScreen() {
 }
 
 const styles = StyleSheet.create({
-  inventory: {
-    height: 378,
-    width: 290,
-    bottom: 0,
-    top: 0,
-    left: 125,
+  maltLogo: {
+    height: 450,
+    width: 450,
+    top: -50,
+    left: 165,
     position: "absolute",
   },
   deleteButton: {

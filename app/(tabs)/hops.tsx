@@ -10,11 +10,11 @@ export default function HopScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerText="Welcome!"
+      headerText="Hops"
       headerImage={
         <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
+          source={require("@/assets/images/hops.png")}
+          style={styles.hopLogo}
         />
       }
     >
@@ -71,11 +71,11 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  hopLogo: {
+    height: 350,
+    width: 450,
+    bottom: -60,
+    left: 75,
     position: "absolute",
   },
 });

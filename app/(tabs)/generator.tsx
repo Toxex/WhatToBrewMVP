@@ -11,7 +11,7 @@ export default function GeneratorScreen() {
       headerText="What To Brew?"
       headerImage={
         <Image
-          source={require("@/assets/images/generator-pale.png")}
+          source={require("@/assets/images/generator-brown.png")}
           style={styles.reactLogo}
         />
       }
@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
     height: 378,
     width: 290,
     bottom: 0,
-    top: 50,
-    left: 200,
+    top: 20,
+    left: 210,
     position: "absolute",
   },
 });
