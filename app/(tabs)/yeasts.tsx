@@ -17,7 +17,7 @@ export default function Yeastcreen() {
         <IconSymbol
           size={310}
           color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
+          name="chevron.left.forwardslash.chevron.right" //fix with header image
           style={styles.headerImage}
         />
       }

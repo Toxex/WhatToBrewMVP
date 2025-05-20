@@ -39,9 +39,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="malts"
         options={{
-          title: "Inventory",
+          title: "Malts",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="backpack" color={color} />
+            <IconSymbol size={28} name="house.fill" color={color} />
           ),
         }}
       />
@@ -49,18 +49,22 @@ export default function TabLayout() {
       <Tabs.Screen
         name="hops"
         options={{
-          title: "Home",
+          title: "Hops",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <IconSymbol size={28} name="paperplane.fill" color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="yeasts"
         options={{
-          title: "Explore",
+          title: "Yeasts",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol
+              size={28}
+              name="chevron.left.forwardslash.chevron.right"
+              color={color}
+            />
           ),
         }}
       />
@@ -69,7 +73,7 @@ export default function TabLayout() {
         options={{
           title: "Debug",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol size={28} name="backpack" color={color} />
           ),
         }}
       />

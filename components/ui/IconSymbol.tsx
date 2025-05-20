@@ -1,40 +1,48 @@
-// Fallback for using MaterialIcons on Android and web.
-
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { SymbolViewProps, SymbolWeight } from "expo-symbols";
+import { SymbolWeight } from "expo-symbols";
 import { ComponentProps } from "react";
-import { OpaqueColorValue, type StyleProp, type TextStyle } from "react-native";
+import { OpaqueColorValue, StyleProp, TextStyle } from "react-native";
 
-type IconMapping = Record<
-  SymbolViewProps["name"],
-  ComponentProps<typeof MaterialIcons>["name"]
->;
-type IconSymbolName = keyof typeof MAPPING;
+type MaterialIconName = ComponentProps<typeof MaterialIcons>["name"];
+type MaterialCommunityIconName = ComponentProps<
+  typeof MaterialCommunityIcons
+>["name"];
+type FontAwesome6IconName = ComponentProps<typeof FontAwesome6>["name"];
 
-/**
- * Add your SF Symbols to Material Icons mappings here.
- * - see Material Icons in the [Icons Directory](wine).
- * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
- */
-const MAPPING = {
-  "house.fill": "home",
-  "paperplane.fill": "send",
-  "chevron.left.forwardslash.chevron.right": "code",
-  "chevron.right": "chevron-right",
-  wineglass: "sports-bar", //swap this out to either hop icon or some other storage thing.
-  backpack: "backpack", //maybe other logo?
-} as IconMapping;
+type IconSymbolName =
+  | "house.fill" //SAMTLIGA SF IKONER BEHÖVER BYTAS (förutom backpack)
+  | "paperplane.fill"
+  | "chevron.left.forwardslash.chevron.right"
+  | "chevron.right"
+  | "wineglass"
+  | "backpack";
 
-/**
- * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.
- * This ensures a consistent look across platforms, and optimal resource usage.
- * Icon `name`s are based on SF Symbols and require manual mapping to Material Icons.
- */
+// mappar SF Symbols till ikoner från MaterialIcons, MaterialCommunityIcons eller FontAwesome6
+const MAPPING: Record<
+  IconSymbolName,
+  | { lib: "MaterialIcons"; name: MaterialIconName }
+  | { lib: "MaterialCommunityIcons"; name: MaterialCommunityIconName }
+  | { lib: "FontAwesome6"; name: FontAwesome6IconName }
+> = {
+  "house.fill": { lib: "MaterialCommunityIcons", name: "barley" },
+  "paperplane.fill": { lib: "MaterialCommunityIcons", name: "hops" },
+  "chevron.left.forwardslash.chevron.right": {
+    lib: "FontAwesome6",
+    name: "flask-vial",
+  },
+  wineglass: { lib: "MaterialIcons", name: "sports-bar" },
+  backpack: { lib: "MaterialIcons", name: "backpack" },
+  "chevron.right": { lib: "MaterialIcons", name: "chevron-right" },
+};
+
 export function IconSymbol({
   name,
   size = 24,
   color,
   style,
+  weight,
 }: {
   name: IconSymbolName;
   size?: number;
@@ -42,11 +50,23 @@ export function IconSymbol({
   style?: StyleProp<TextStyle>;
   weight?: SymbolWeight;
 }) {
+  const icon = MAPPING[name];
+
+  if (icon.lib === "MaterialIcons") {
+    return (
+      <MaterialIcons name={icon.name} size={size} color={color} style={style} />
+    );
+  } else if (icon.lib === "FontAwesome6") {
+    return (
+      <FontAwesome6 name={icon.name} size={size} color={color} style={style} />
+    );
+  }
+
   return (
-    <MaterialIcons
-      color={color}
+    <MaterialCommunityIcons
+      name={icon.name}
       size={size}
-      name={MAPPING[name]}
+      color={color}
       style={style}
     />
   );
