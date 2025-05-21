@@ -16,7 +16,7 @@ export default function RootLayout() {
   useEffect(() => {
     createSchema()
       .then(() => {
-        console.log("✅ DB schema created");
+        console.log("✅ DB schema created or initialized.");
       })
       .catch((err) => {
         console.error("❌ DB schema error:", err);

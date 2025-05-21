@@ -1,3 +1,4 @@
+import { BeerWave } from "@/components/BeerWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -16,8 +17,9 @@ export default function GeneratorScreen() {
         />
       }
     >
-      <ThemedView>
+      <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Generator</ThemedText>
+        <BeerWave />
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -31,5 +33,10 @@ const styles = StyleSheet.create({
     top: 20,
     left: 210,
     position: "absolute",
+  },
+  titleContainer: {
+    flexDirection: "row",
+    gap: 15,
+    alignItems: "center",
   },
 });
