@@ -1,4 +1,5 @@
 import { createSchema } from "@/database/schema";
+import { useColorScheme } from "@/hooks/useColorScheme";
 import {
   DarkTheme,
   DefaultTheme,
@@ -10,17 +11,13 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
-import { useColorScheme } from "@/hooks/useColorScheme";
-
 export default function RootLayout() {
   useEffect(() => {
-    createSchema()
-      .then(() => {
-        console.log("✅ DB schema created or initialized.");
-      })
-      .catch((err) => {
-        console.error("❌ DB schema error:", err);
-      });
+    async function startUp() {
+      await createSchema();
+      console.log("✅ DB schema created or initialized.");
+    }
+    startUp();
   }, []);
 
   const colorScheme = useColorScheme();

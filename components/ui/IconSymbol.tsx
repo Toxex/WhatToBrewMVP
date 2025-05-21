@@ -12,9 +12,9 @@ type MaterialCommunityIconName = ComponentProps<
 type FontAwesome6IconName = ComponentProps<typeof FontAwesome6>["name"];
 
 type IconSymbolName =
-  | "house.fill" //SAMTLIGA SF IKONER BEHÖVER BYTAS (förutom backpack)
-  | "paperplane.fill"
-  | "chevron.left.forwardslash.chevron.right"
+  | "leaf.fill" //SAMTLIGA SF IKONER BEHÖVER BYTAS (förutom backpack)
+  | "leaf.circle.fill"
+  | "testtube.2"
   | "chevron.right"
   | "wineglass"
   | "backpack";
@@ -26,9 +26,9 @@ const MAPPING: Record<
   | { lib: "MaterialCommunityIcons"; name: MaterialCommunityIconName }
   | { lib: "FontAwesome6"; name: FontAwesome6IconName }
 > = {
-  "house.fill": { lib: "MaterialCommunityIcons", name: "barley" },
-  "paperplane.fill": { lib: "MaterialCommunityIcons", name: "hops" },
-  "chevron.left.forwardslash.chevron.right": {
+  "leaf.fill": { lib: "MaterialCommunityIcons", name: "barley" },
+  "leaf.circle.fill": { lib: "MaterialCommunityIcons", name: "hops" },
+  "testtube.2": {
     lib: "FontAwesome6",
     name: "flask-vial",
   },

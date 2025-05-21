@@ -41,7 +41,7 @@ export default function TabLayout() {
         options={{
           title: "Malts",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <IconSymbol size={28} name="leaf.fill" color={color} />
           ),
         }}
       />
@@ -51,7 +51,7 @@ export default function TabLayout() {
         options={{
           title: "Hops",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol size={28} name="leaf.circle.fill" color={color} />
           ),
         }}
       />
@@ -60,11 +60,7 @@ export default function TabLayout() {
         options={{
           title: "Yeasts",
           tabBarIcon: ({ color }) => (
-            <IconSymbol
-              size={28}
-              name="chevron.left.forwardslash.chevron.right"
-              color={color}
-            />
+            <IconSymbol size={28} name="testtube.2" color={color} />
           ),
         }}
       />

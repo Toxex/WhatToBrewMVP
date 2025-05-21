@@ -1,7 +1,7 @@
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { deleteMalt, getAllMalt } from "@/database/queries";
+import { logFullDatabase } from "@/database/queries";
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
@@ -10,20 +10,14 @@ export default function DebugScreen() {
   const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchData();
+    console.log("debug screen online and running fine");
+    async function fetchEverything() {
+      console.log("Fetching everything is being");
+      await logFullDatabase(); // logs everything to console
+    }
+
+    fetchEverything();
   }, []);
-
-  // Helper to load malt rows
-  async function fetchData() {
-    const result = await getAllMalt();
-    setRows(result);
-  }
-
-  // Delete malt by id and refresh list
-  async function handleDelete(id: number) {
-    await deleteMalt(id);
-    await fetchData();
-  }
 
   return (
     <ParallaxScrollView
@@ -37,13 +31,13 @@ export default function DebugScreen() {
       }
     >
       <ThemedView>
-        <ThemedText type="title">List of malt</ThemedText>
+        <ThemedText type="title">FUCK YOU!</ThemedText>
         <ThemedText type="default">
           {rows.map((row, id) => (
             <Text key={id}>
               {JSON.stringify(row)}
               <TouchableOpacity
-                onPress={() => handleDelete(row.id)}
+                onPress={() => row.id}
                 style={styles.deleteButton}
               >
                 <Text style={styles.cross}>×</Text>

@@ -1,28 +1,26 @@
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { deleteMalt, getAllMalt, insertMalt } from "@/database/queries";
+import { MaltService } from "@/services/maltService";
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export default function MaltScreen() {
-  const [rows, setRows] = useState<any[]>([]);
+  const [malts, setMalts] = useState<any[]>([]);
 
   useEffect(() => {
-    //put all hooks in the hooksfolder?
-    insertMalt("Vienna", 15, "Austria", 20); // not functional atm
-    fetchData();
+    async function loadMalts() {
+      const result = await MaltService.fetchAll();
+      setMalts(result);
+      // await MaltService.addMalt("test", 1, "test", 1);
+    }
+    loadMalts();
   }, []);
 
-  async function fetchData() {
-    const result = await getAllMalt();
-    setRows(result);
-  }
-
-  async function handleDelete(id: number) {
-    await deleteMalt(id);
-    await fetchData();
+  async function handleReload() {
+    const result = await MaltService.fetchAll();
+    setMalts(result);
   }
 
   return (
@@ -39,11 +37,14 @@ export default function MaltScreen() {
       <ThemedView>
         <ThemedText type="title">List of malt</ThemedText>
         <ThemedText type="default">
-          {rows.map((row, id) => (
+          {malts.map((malt, id) => (
             <Text key={id}>
-              {JSON.stringify(row)}
+              {JSON.stringify(malt)}
               <TouchableOpacity
-                onPress={() => handleDelete(row.id)}
+                onPress={async () => {
+                  await MaltService.removeMalt(malt.id);
+                  await handleReload();
+                }}
                 style={styles.deleteButton}
               >
                 <Text style={styles.cross}>×</Text>
