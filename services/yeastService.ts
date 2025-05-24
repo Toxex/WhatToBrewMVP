@@ -15,7 +15,7 @@ export const YeastService = {
     await insertYeast(name, origin, attenuation, amountOfPackages);
   },
 
-  async removeHop(id: number) {
+  async removeYeast(id: number) {
     await deleteYeast(id);
   },
 };

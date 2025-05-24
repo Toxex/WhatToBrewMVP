@@ -1,13 +1,29 @@
 import { Image } from "expo-image";
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-import { Collapsible } from "@/components/Collapsible";
-import { ExternalLink } from "@/components/ExternalLink";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { YeastService } from "@/services/yeastService";
+import { useEffect, useState } from "react";
 
 export default function Yeastcreen() {
+  const [yeasts, setYeasts] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function loadYeasts() {
+      const result = await YeastService.fetchAll();
+      setYeasts(result);
+      await YeastService.addYeast("US-05", "Fermentis", 84, 3);
+    }
+    loadYeasts();
+  }, []);
+
+  async function handleReload() {
+    const result = await YeastService.fetchAll();
+    setYeasts(result);
+  }
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
@@ -19,11 +35,27 @@ export default function Yeastcreen() {
         />
       }
     >
-      <ThemedView style={styles.titleContainer}>
+      <ThemedView>
         <ThemedText type="title">List of Yeasts</ThemedText>
+        <ThemedText type="default">
+          {yeasts.map((yeast, id) => (
+            <Text key={id}>
+              {JSON.stringify(yeast)}
+              <TouchableOpacity
+                onPress={async () => {
+                  await YeastService.removeYeast(yeast.id);
+                  await handleReload();
+                }}
+                style={styles.deleteButton}
+              >
+                <Text style={styles.cross}>×</Text>
+              </TouchableOpacity>
+            </Text>
+          ))}
+        </ThemedText>
         {/* MAKE ALL THE LISTS COLLAPSIBLES?!?!?! */}
       </ThemedView>
-      <ThemedText>
+      {/* <ThemedText>
         This app includes example code to help you get started.
       </ThemedText>
       <Collapsible title="File-based routing">
@@ -110,7 +142,7 @@ export default function Yeastcreen() {
             </ThemedText>
           ),
         })}
-      </Collapsible>
+      </Collapsible> */}
     </ParallaxScrollView>
   );
 }
@@ -124,7 +156,19 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   titleContainer: {
-    flexDirection: "row",
     gap: 8,
+  },
+  deleteButton: {
+    padding: 4,
+    marginLeft: 10,
+    backgroundColor: "transparent",
+  },
+  cross: {
+    color: "red",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  yeast: {
+    marginTop: 200,
   },
 });
