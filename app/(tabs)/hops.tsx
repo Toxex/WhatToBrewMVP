@@ -13,7 +13,7 @@ export default function HopScreen() {
     async function loadHops() {
       const result = await HopService.fetchAll();
       setHops(result);
-      // await HopService.addHop("test", 1, "test", 1);
+      await HopService.addHop("East Kent Goldings", 7.4, "UK", 2);
     }
     loadHops();
   }, []);

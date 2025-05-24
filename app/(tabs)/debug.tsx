@@ -19,6 +19,10 @@ export default function DebugScreen() {
     fetchEverything();
   }, []);
 
+  // async function handleReload = async () => {
+  //   const result = await logFullDatabase();
+  // };
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
