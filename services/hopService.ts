@@ -1,9 +1,9 @@
 import {
   deleteHop,
-  getAllHops,
-  insertHop,
   deleteSelectedHop,
+  getAllHops,
   getAllSelectedHops,
+  insertHop,
   insertSelectedHopAmount,
 } from "@/database/queries";
 import { refreshData } from "./logicService";
@@ -32,3 +32,6 @@ export const HopService = {
     await deleteSelectedHop(id);
   },
 };
+
+//THIS LAYER EXISTS TO FACILITATE TESTING, VIA MOCKS
+//OR TO ADD ADDITIONAL LOGIC/ERRORHANDLING/FUNCTIONALITY

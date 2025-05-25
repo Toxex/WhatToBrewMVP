@@ -32,3 +32,6 @@ export const YeastService = {
     await deleteSelectedYeast(id);
   },
 };
+
+//THIS LAYER EXISTS TO FACILITATE TESTING, VIA MOCKS
+//OR TO ADD ADDITIONAL LOGIC/ERRORHANDLING/FUNCTIONALITY

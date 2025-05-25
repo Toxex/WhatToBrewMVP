@@ -31,3 +31,6 @@ export const MaltService = {
     await deleteSelectedMalt(id);
   },
 };
+
+//THIS LAYER EXISTS TO FACILITATE TESTING, VIA MOCKS
+//OR TO ADD ADDITIONAL LOGIC/ERRORHANDLING/FUNCTIONALITY

@@ -81,7 +81,7 @@ export default function HopScreen() {
         <TextInput
           style={styles.input}
           onChangeText={changeNumber}
-          placeholder="Input grams of hop"
+          placeholder="Weight in grams"
           placeholderTextColor={"white"}
           keyboardType="numeric"
           value={amount}
