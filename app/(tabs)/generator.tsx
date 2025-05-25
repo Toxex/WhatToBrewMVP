@@ -2,18 +2,21 @@ import { BeerWave } from "@/components/BeerWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { clearDatabase } from "@/services/clearDB";
+import { generateSuggestedBrew } from "@/services/logicService";
+import { Text } from "@react-navigation/elements";
 import { Image } from "expo-image";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 
 export default function GeneratorScreen() {
-  const suggestionList = ["IPA", "Stout", "Lager"];
   const [suggestion, setSuggestion] = useState<string | null>(null);
 
-  function randomizeSuggestion() {
-    const randomIndex = Math.floor(Math.random() * suggestionList.length);
-    const randomSuggestion = suggestionList[randomIndex];
-    setSuggestion(randomSuggestion);
+  async function generateSuggestion() {
+    console.log("calculatedSuggestion: ");
+    const calculatedSuggestion: any = await generateSuggestedBrew();
+    console.log(calculatedSuggestion);
+    setSuggestion(calculatedSuggestion);
   }
 
   return (
@@ -28,7 +31,7 @@ export default function GeneratorScreen() {
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <TouchableOpacity style={styles.button} onPress={randomizeSuggestion}>
+        <TouchableOpacity style={styles.button} onPress={generateSuggestion}>
           <ThemedText type="title">
             Generate
             <BeerWave />
@@ -46,6 +49,12 @@ export default function GeneratorScreen() {
           </ThemedText>
         </ThemedView>
       )}
+      <TouchableOpacity
+        style={{ marginTop: 150 }}
+        onPress={() => clearDatabase()}
+      >
+        <Text>Clear DB</Text>
+      </TouchableOpacity>
     </ParallaxScrollView>
   );
 }

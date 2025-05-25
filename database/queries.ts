@@ -173,6 +173,12 @@ export async function logFullDatabase() {
   const yeast = await database.getAllAsync("SELECT * FROM yeast");
   const beerStyle = await database.getAllAsync("SELECT * FROM beer_style");
   const selected_hop = await database.getAllAsync("SELECT * FROM selected_hop");
+  const selected_malt = await database.getAllAsync(
+    "SELECT * FROM selected_malt"
+  );
+  const selected_yeast = await database.getAllAsync(
+    "SELECT * FROM selected_yeast"
+  );
 
   console.log("🍺 Full DB Dump:");
   console.log("Malts:", malt);
@@ -180,4 +186,6 @@ export async function logFullDatabase() {
   console.log("Yeasts:", yeast);
   console.log("Beer Styles:", beerStyle);
   console.log("Selected Hops:", selected_hop);
+  console.log("Selected Malts:", selected_malt);
+  console.log("Selected Yeasts:", selected_yeast);
 }
