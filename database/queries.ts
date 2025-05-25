@@ -1,17 +1,12 @@
 import { db } from "./db";
 
 //MALTS
-export async function insertMalt(
-  name: string,
-  ebc: number,
-  origin: string,
-  amountInGrams: number
-) {
+export async function insertMalt(name: string, ebc: number, origin: string) {
   const database = await db;
   try {
     await database.runAsync(
-      "INSERT INTO malt (name, ebc, origin, amountInGrams) VALUES (?, ?, ?, ?)",
-      [name, ebc, origin, amountInGrams]
+      "INSERT INTO malt (name, ebc, origin) VALUES (?, ?, ?)",
+      [name, ebc, origin]
     );
   } catch (error) {
     console.error("Error inserting malt:", error);
@@ -33,14 +28,13 @@ export async function getAllMalt() {
 export async function insertYeast(
   name: string,
   type: string,
-  attenuation: number,
-  amountOfPackages: number
+  attenuation: number
 ) {
   const database = await db;
   try {
     await database.runAsync(
-      `INSERT INTO yeast (name, type, attenuation, amountOfPackages) VALUES (?, ?, ?, ?)`,
-      [name, type, attenuation, amountOfPackages]
+      `INSERT INTO yeast (name, type, attenuation) VALUES (?, ?, ?)`,
+      [name, type, attenuation]
     );
   } catch (error) {
     console.error("Error inserting yeast:", error);
@@ -63,14 +57,13 @@ export async function getAllYeasts() {
 export async function insertHop(
   name: string,
   alphaAcid: number,
-  origin: string,
-  amountInGrams: number
+  origin: string
 ) {
   const database = await db;
   try {
     await database.runAsync(
-      `INSERT INTO hops (name, alphaAcid, origin, amountInGrams) VALUES (?, ?, ?, ?)`,
-      [name, alphaAcid, origin, amountInGrams]
+      `INSERT INTO hops (name, alphaAcid, origin) VALUES (?, ?, ?)`,
+      [name, alphaAcid, origin]
     );
   } catch (error) {
     console.error("Error inserting hop:", error);
@@ -88,8 +81,24 @@ export async function getAllHops() {
   return await database.getAllAsync("SELECT * FROM hops");
 }
 
-//BEER STYLE????
+//INGREDIENT AMOUNT
+export async function insertIngredientAmount(
+  foreignId: number,
+  amountInGrams: number
+) {
+  const database = await db;
+  try {
+    await database.runAsync(
+      `INSERT INTO ingredient_amount (foreignId, amount) VALUES (?, ?)`,
+      [foreignId, amountInGrams]
+    );
+  } catch (error) {
+    console.error("Error inserting ingredient amount:", error);
+    throw error;
+  }
+}
 
+//BEER STYLE????
 //LOGALL
 export async function logFullDatabase() {
   const database = await db;

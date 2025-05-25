@@ -6,13 +6,8 @@ export const MaltService = {
     return refreshData(getAllMalt);
   },
 
-  async addMalt(
-    name: string,
-    ebc: number,
-    origin: string,
-    amountInGrams: number
-  ) {
-    await insertMalt(name, ebc, origin, amountInGrams);
+  async addMalt(name: string, ebc: number, origin: string) {
+    await insertMalt(name, ebc, origin);
   },
 
   async removeMalt(id: number) {

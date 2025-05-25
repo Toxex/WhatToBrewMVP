@@ -14,7 +14,7 @@ export default function Yeastcreen() {
     async function loadYeasts() {
       const result = await YeastService.fetchAll();
       setYeasts(result);
-      await YeastService.addYeast("US-05", "Fermentis", 84, 3);
+      // await YeastService.addYeast("US-05", "Fermentis", 84, 3);
     }
     loadYeasts();
   }, []);

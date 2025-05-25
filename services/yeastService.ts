@@ -6,13 +6,8 @@ export const YeastService = {
     return refreshData(getAllYeasts);
   },
 
-  async addYeast(
-    name: string,
-    origin: string,
-    attenuation: number,
-    amountOfPackages: number
-  ) {
-    await insertYeast(name, origin, attenuation, amountOfPackages);
+  async addYeast(name: string, origin: string, attenuation: number) {
+    await insertYeast(name, origin, attenuation);
   },
 
   async removeYeast(id: number) {

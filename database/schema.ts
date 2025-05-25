@@ -8,24 +8,56 @@ export async function createSchema() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       ebc INTEGER,
-      origin TEXT,
-      amountInGrams INTEGER
+      origin TEXT;
     );
+    INSERT INTO malt (name, ebc, origin) VALUES 
+      ('Pilsner', 2, 'Germany'),
+      ('Wheat', 3, 'USA'),
+      ('Black Malt', 900, UK),
+      ('Crystal 150', 250, 'UK');
 
     CREATE TABLE IF NOT EXISTS hops (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       alphaAcid REAL,
-      origin TEXT,
-      amountInGrams INTEGER
+      origin TEXT;
     );
+    INSERT INTO hops (name, alphaAcid, origin) VALUES 
+      ('Cascade', 6.3, 'USA'),
+      ('East Kent Goldings', 7.4, 'UK'),
+      ('Simcoe', 6.5, 'USA'),
+      ('Hallertau Mittelfrü', 7.5, 'Germany');
 
     CREATE TABLE IF NOT EXISTS yeast (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       type TEXT,
-      attenuation INTEGER,
-      amountOfPackages INTEGER
+      attenuation INTEGER;
+    );
+    INSERT INTO yeast (name, type, attenuation) VALUES 
+      ('SafAle S-04', 'Ale', 78),
+      ('SafAle US-05', 'Ale', 82),
+      ('SafLager W-34/70', 'Lager', 5);
+
+    CREATE TABLE selected_malt (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      malt_id INTEGER NOT NULL,
+      amountInGrams INTEGER NOT NULL,
+      FOREIGN KEY (malt_id) REFERENCES malt(id)
+    );
+
+    CREATE TABLE selected_hop (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      hop_id INTEGER NOT NULL,
+      amountInGrams INTEGER NOT NULL,
+      FOREIGN KEY (hop_id) REFERENCES hops(id)
+    );
+
+    CREATE TABLE selected_yeast (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      yeast_id INTEGER NOT NULL,
+      amountOfPackages INTEGER NOT NULL,
+      FOREIGN KEY (yeast_id) REFERENCES yeast(id)
     );
 
     CREATE TABLE IF NOT EXISTS beer_style (

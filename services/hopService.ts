@@ -1,4 +1,9 @@
-import { getAllHops, insertHop, deleteHop } from "@/database/queries";
+import {
+  deleteHop,
+  getAllHops,
+  insertHop,
+  insertIngredientAmount,
+} from "@/database/queries";
 import { refreshData } from "./logicService";
 
 export const HopService = {
@@ -6,16 +11,15 @@ export const HopService = {
     return refreshData(getAllHops);
   },
 
-  async addHop(
-    name: string,
-    alphaAcid: number,
-    origin: string,
-    amountInGrams: number
-  ) {
-    await insertHop(name, alphaAcid, origin, amountInGrams);
+  async addHop(name: string, alphaAcid: number, origin: string) {
+    await insertHop(name, alphaAcid, origin);
   },
 
   async removeHop(id: number) {
     await deleteHop(id);
+  },
+
+  async insertHopAmount(foreignId: number, amountInGrams: number) {
+    await insertIngredientAmount(foreignId, amountInGrams);
   },
 };

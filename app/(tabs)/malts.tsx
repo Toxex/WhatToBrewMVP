@@ -13,7 +13,7 @@ export default function MaltScreen() {
     async function loadMalts() {
       const result = await MaltService.fetchAll();
       setMalts(result);
-      await MaltService.addMalt("test", 1, "test", 1);
+      // await MaltService.addMalt("test", 1, "test", 1);
     }
     loadMalts();
   }, []);
