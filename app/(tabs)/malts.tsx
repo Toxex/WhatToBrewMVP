@@ -59,10 +59,12 @@ export default function MaltScreen() {
         <ThemedText type="title">List of Malts</ThemedText>
         {selectedMalts.map((malt, id) => (
           <ThemedView key={id} style={styles.maltRow}>
-            <Text style={styles.maltText}>{JSON.stringify(malt)}</Text>
+            <Text style={styles.maltText}>
+              {malt.name} - {malt.amountInGrams}g
+            </Text>
             <TouchableOpacity
               onPress={async () => {
-                await MaltService.removeSelectedMalt(malt.id);
+                await MaltService.removeSelectedMalt(malt.selectedId);
                 await handleReload();
               }}
               style={styles.deleteButton}

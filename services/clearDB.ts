@@ -5,7 +5,7 @@ export async function clearDatabase() {
 
   try {
     await database.execAsync("DELETE FROM malt");
-    await database.execAsync("DELETE FROM hops");
+    await database.execAsync("DELETE FROM hop");
     await database.execAsync("DELETE FROM yeast");
     await database.execAsync("DELETE FROM beer_style");
     await database.execAsync("DELETE FROM selected_malt");

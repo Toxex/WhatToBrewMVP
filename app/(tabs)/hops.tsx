@@ -50,10 +50,12 @@ export default function HopScreen() {
         <ThemedText type="title">List of Hops</ThemedText>
         {selectedHops.map((hop, id) => (
           <ThemedView key={id} style={styles.hopRow}>
-            <Text style={styles.hopText}>{JSON.stringify(hop)}</Text>
+            <Text style={styles.hopText}>
+              {hop.name} - {hop.amountInGrams}g
+            </Text>
             <TouchableOpacity
               onPress={async () => {
-                await HopService.removeSelectedHop(hop.id);
+                await HopService.removeSelectedHop(hop.selectedId);
                 await handleReload();
               }}
               style={styles.deleteButton}

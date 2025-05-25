@@ -12,7 +12,7 @@ export async function createSchema() {
       origin TEXT
     );
 
-    CREATE TABLE IF NOT EXISTS hops (
+    CREATE TABLE IF NOT EXISTS hop (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       alphaAcid REAL,
@@ -37,7 +37,7 @@ export async function createSchema() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       hop_id INTEGER NOT NULL,
       amountInGrams INTEGER NOT NULL,
-      FOREIGN KEY (hop_id) REFERENCES hops(id)
+      FOREIGN KEY (hop_id) REFERENCES hop(id)
     );
 
     CREATE TABLE IF NOT EXISTS selected_yeast (
@@ -52,7 +52,7 @@ export async function createSchema() {
       name TEXT NOT NULL,
       description TEXT,
       malt_id INTEGER,
-      hops_id INTEGER,
+      hop_id INTEGER,
       yeast_id INTEGER,
       FOREIGN KEY (malt_id) REFERENCES malt(id), 
       FOREIGN KEY (hops_id) REFERENCES hops(id),
@@ -77,19 +77,19 @@ export async function createSchema() {
     SELECT 'Crystal 150', 250, 'UK'
     WHERE NOT EXISTS (SELECT 1 FROM malt WHERE name = 'Crystal 150');
 
-    -- Insert hops if not exists
+    -- Insert hop if not exists
 
-    INSERT INTO hops (name, alphaAcid, origin)
+    INSERT INTO hop (name, alphaAcid, origin)
     SELECT 'East Kent Goldings', 7.4, 'UK'
-    WHERE NOT EXISTS (SELECT 1 FROM hops WHERE name = 'East Kent Goldings');
+    WHERE NOT EXISTS (SELECT 1 FROM hop WHERE name = 'East Kent Goldings');
 
-    INSERT INTO hops (name, alphaAcid, origin)
+    INSERT INTO hop (name, alphaAcid, origin)
     SELECT 'Simcoe', 6.5, 'USA'
-    WHERE NOT EXISTS (SELECT 1 FROM hops WHERE name = 'Simcoe');
+    WHERE NOT EXISTS (SELECT 1 FROM hop WHERE name = 'Simcoe');
 
-    INSERT INTO hops (name, alphaAcid, origin)
+    INSERT INTO hop (name, alphaAcid, origin)
     SELECT 'Hallertau Mittelfrü', 7.5, 'Germany'
-    WHERE NOT EXISTS (SELECT 1 FROM hops WHERE name = 'Hallertau Mittelfrü');
+    WHERE NOT EXISTS (SELECT 1 FROM hop WHERE name = 'Hallertau Mittelfrü');
 
     -- Insert yeasts if not exists
 
@@ -110,7 +110,7 @@ export async function createSchema() {
     INSERT INTO beer_style (name, description, hops_id, malt_id, yeast_id)
     SELECT 'IPA', 
     'India Pale Ale is a type of ale that is typically brewed with a high amount of hops.',
-    (SELECT id FROM hops WHERE name = 'Simcoe'),
+    (SELECT id FROM hop WHERE name = 'Simcoe'),
     (SELECT id FROM malt WHERE name = 'Pale Ale'), 
     (SELECT id FROM yeast WHERE name = 'SafAle S-04')
     WHERE NOT EXISTS (SELECT 1 FROM beer_style WHERE name = 'IPA');
@@ -118,7 +118,7 @@ export async function createSchema() {
     INSERT INTO beer_style (name, description, hops_id, malt_id, yeast_id)
     SELECT 'Lager', 
     'German lager is a light, crisp, and refreshing beer with a clean, malty aroma and a light, crisp, and refreshing taste.',
-    (SELECT id FROM hops WHERE name = 'Hallertau Mittelfrü'),
+    (SELECT id FROM hop WHERE name = 'Hallertau Mittelfrü'),
     (SELECT id FROM malt WHERE name = 'Pilsner'),
     (SELECT id FROM yeast WHERE name = 'SafLager W-34/70')
     WHERE NOT EXISTS (SELECT 1 FROM beer_style WHERE name = 'Lager');
@@ -126,7 +126,7 @@ export async function createSchema() {
     INSERT INTO beer_style (name, description, hops_id, malt_id, yeast_id)
     SELECT 'Stout', 
     'Dry Stout is a dark, bitter, and full-bodied beer that is typically brewed with a high amount of malt and few hops.',
-    (SELECT id FROM hops WHERE name = 'East Kent Goldings'),
+    (SELECT id FROM hop WHERE name = 'East Kent Goldings'),
     (SELECT id FROM malt WHERE name = 'Black Malt'),
     (SELECT id FROM yeast WHERE name = 'SafAle US-05')
     WHERE NOT EXISTS (SELECT 1 FROM beer_style WHERE name = 'Stout');

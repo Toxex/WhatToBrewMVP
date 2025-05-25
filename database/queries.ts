@@ -48,7 +48,10 @@ export async function deleteSelectedMalt(id: number) {
 
 export async function getAllSelectedMalt() {
   const database = await db;
-  return await database.getAllAsync("SELECT * FROM selected_malt");
+  return await database.getAllAsync(`SELECT selected_malt.id AS selectedId, selected_malt.amountInGrams, malt.name, malt.id
+    FROM selected_malt
+    JOIN malt ON selected_malt.malt_id = malt.id
+  `);
 }
 
 //YEASTS
@@ -103,7 +106,15 @@ export async function deleteSelectedYeast(id: number) {
 
 export async function getAllSelectedYeasts() {
   const database = await db;
-  return await database.getAllAsync("SELECT * FROM selected_yeast");
+  return await database.getAllAsync(`
+  SELECT 
+    selected_yeast.id AS selectedId,
+    yeast_id,
+    yeast.name,
+    selected_yeast.amountOfPackages
+  FROM selected_yeast
+  JOIN yeast ON selected_yeast.yeast_id = yeast.id
+`);
 }
 
 //HOPS
@@ -132,7 +143,7 @@ export async function deleteHop(id: number) {
 
 export async function getAllHops() {
   const database = await db;
-  return await database.getAllAsync("SELECT * FROM hops");
+  return await database.getAllAsync("SELECT * FROM hop");
 }
 
 //SELECTED HOPS
@@ -160,17 +171,28 @@ export async function deleteSelectedHop(id: number) {
 
 export async function getAllSelectedHops() {
   const database = await db;
-  return await database.getAllAsync("SELECT * FROM selected_hop");
+  return await database.getAllAsync(`
+  SELECT 
+    selected_hop.id AS selectedId,
+    hop_id,
+    hop.name,
+    selected_hop.amountInGrams
+  FROM selected_hop
+  JOIN hop ON selected_hop.hop_id = hop.id
+`);
 }
 
 //BEER STYLE????
 //LOGALL
 export async function logFullDatabase() {
   const database = await db;
-
+  console.log("database loaded");
   const malt = await database.getAllAsync("SELECT * FROM malt");
-  const hops = await database.getAllAsync("SELECT * FROM hops");
+  console.log("Malt inventory fetched:", malt);
+  const hop = await database.getAllAsync("SELECT * FROM hop");
+  console.log("Hop inventory fetched:", hop);
   const yeast = await database.getAllAsync("SELECT * FROM yeast");
+  console.log("Yeast inventory fetched:", yeast);
   const beerStyle = await database.getAllAsync("SELECT * FROM beer_style");
   const selected_hop = await database.getAllAsync("SELECT * FROM selected_hop");
   const selected_malt = await database.getAllAsync(
@@ -182,7 +204,7 @@ export async function logFullDatabase() {
 
   console.log("🍺 Full DB Dump:");
   console.log("Malts:", malt);
-  console.log("Hops:", hops);
+  console.log("Hops:", hop);
   console.log("Yeasts:", yeast);
   console.log("Beer Styles:", beerStyle);
   console.log("Selected Hops:", selected_hop);

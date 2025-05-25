@@ -60,10 +60,12 @@ export default function YeastScreen() {
         <ThemedText type="title">List of Yeasts</ThemedText>
         {selectedYeasts.map((yeast, id) => (
           <ThemedView key={id} style={styles.yeastRow}>
-            <Text style={styles.yeastText}>{JSON.stringify(yeast)}</Text>
+            <Text style={styles.yeastText}>
+              {yeast.name} - {yeast.amountOfPackages} packages
+            </Text>
             <TouchableOpacity
               onPress={async () => {
-                await YeastService.removeSelectedYeast(yeast.id);
+                await YeastService.removeSelectedYeast(yeast.selectedId);
                 await handleReload();
               }}
               style={styles.deleteButton}

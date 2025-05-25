@@ -11,6 +11,13 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 export default function GeneratorScreen() {
   const [suggestion, setSuggestion] = useState<string | null>(null);
+  const beerImages: any = {
+    IPA: require("@/assets/images/ipa.png"),
+    Stout: require("@/assets/images/stout.png"),
+    Pilsner: require("@/assets/images/pilsner.png"),
+    default: require("@/assets/images/ipa.png"),
+  };
+  // @/assets/images/generator-brown.png"
 
   async function generateSuggestion() {
     console.log("calculatedSuggestion: ");
@@ -25,7 +32,7 @@ export default function GeneratorScreen() {
       headerText="What To Brew?"
       headerImage={
         <Image
-          source={require("@/assets/images/generator-brown.png")}
+          source={beerImages[suggestion || "default"]}
           style={styles.generatorLogo}
         />
       }
