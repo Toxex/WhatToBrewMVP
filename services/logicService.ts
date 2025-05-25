@@ -4,3 +4,7 @@ export async function refreshData<T>(
   const data = await fetchFunction();
   return data;
 }
+
+export async function generateSuggestedBrew() {
+  return null;
+}

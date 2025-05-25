@@ -2,7 +2,9 @@ import {
   deleteHop,
   getAllHops,
   insertHop,
-  insertIngredientAmount,
+  deleteSelectedHop,
+  getAllSelectedHops,
+  insertSelectedHopAmount,
 } from "@/database/queries";
 import { refreshData } from "./logicService";
 
@@ -19,7 +21,14 @@ export const HopService = {
     await deleteHop(id);
   },
 
+  async fetchAllSelected() {
+    return refreshData(getAllSelectedHops);
+  },
+
   async insertHopAmount(foreignId: number, amountInGrams: number) {
-    await insertIngredientAmount(foreignId, amountInGrams);
+    await insertSelectedHopAmount(foreignId, amountInGrams);
+  },
+  async removeSelectedHop(id: number) {
+    await deleteSelectedHop(id);
   },
 };

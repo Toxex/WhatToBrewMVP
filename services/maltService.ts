@@ -1,4 +1,11 @@
-import { deleteMalt, getAllMalt, insertMalt } from "@/database/queries";
+import {
+  deleteMalt,
+  deleteSelectedMalt,
+  getAllMalt,
+  getAllSelectedMalt,
+  insertMalt,
+  insertSelectedMaltAmount,
+} from "@/database/queries";
 import { refreshData } from "./logicService";
 
 export const MaltService = {
@@ -12,5 +19,15 @@ export const MaltService = {
 
   async removeMalt(id: number) {
     await deleteMalt(id);
+  },
+
+  async fetchAllSelected() {
+    return refreshData(getAllSelectedMalt);
+  },
+  async insertMaltAmount(foreignId: number, amount: number) {
+    await insertSelectedMaltAmount(foreignId, amount);
+  },
+  async removeSelectedMalt(id: number) {
+    await deleteSelectedMalt(id);
   },
 };

@@ -24,6 +24,33 @@ export async function getAllMalt() {
   return await database.getAllAsync("SELECT * FROM malt");
 }
 
+//SELECTED MALTS
+export async function insertSelectedMaltAmount(
+  foreignId: number,
+  amountInGrams: number
+) {
+  const database = await db;
+  try {
+    await database.runAsync(
+      `INSERT INTO selected_malt (malt_id, amountInGrams) VALUES (?, ?)`,
+      [foreignId, amountInGrams]
+    );
+  } catch (error) {
+    console.error("Error inserting malt amount:", error);
+    throw error;
+  }
+}
+
+export async function deleteSelectedMalt(id: number) {
+  const database = await db;
+  await database.runAsync("DELETE FROM selected_malt WHERE id = ?", [id]);
+}
+
+export async function getAllSelectedMalt() {
+  const database = await db;
+  return await database.getAllAsync("SELECT * FROM selected_malt");
+}
+
 //YEASTS
 export async function insertYeast(
   name: string,
@@ -50,6 +77,33 @@ export async function deleteYeast(id: number) {
 export async function getAllYeasts() {
   const database = await db;
   return await database.getAllAsync("SELECT * FROM yeast");
+}
+
+//SELECTED YEASTS
+export async function insertSelectedYeastAmount(
+  foreignId: number,
+  amountInGrams: number
+) {
+  const database = await db;
+  try {
+    await database.runAsync(
+      `INSERT INTO selected_yeast (yeast_id, amountOfPackages) VALUES (?, ?)`,
+      [foreignId, amountInGrams]
+    );
+  } catch (error) {
+    console.error("Error inserting yeast amount:", error);
+    throw error;
+  }
+}
+
+export async function deleteSelectedYeast(id: number) {
+  const database = await db;
+  await database.runAsync("DELETE FROM selected_yeast WHERE id = ?", [id]);
+}
+
+export async function getAllSelectedYeasts() {
+  const database = await db;
+  return await database.getAllAsync("SELECT * FROM selected_yeast");
 }
 
 //HOPS
@@ -81,21 +135,32 @@ export async function getAllHops() {
   return await database.getAllAsync("SELECT * FROM hops");
 }
 
-//INGREDIENT AMOUNT
-export async function insertIngredientAmount(
+//SELECTED HOPS
+
+export async function insertSelectedHopAmount(
   foreignId: number,
   amountInGrams: number
 ) {
   const database = await db;
   try {
     await database.runAsync(
-      `INSERT INTO ingredient_amount (foreignId, amount) VALUES (?, ?)`,
+      `INSERT INTO selected_hop (hop_id, amountInGrams) VALUES (?, ?)`,
       [foreignId, amountInGrams]
     );
   } catch (error) {
     console.error("Error inserting ingredient amount:", error);
     throw error;
   }
+}
+
+export async function deleteSelectedHop(id: number) {
+  const database = await db;
+  await database.runAsync("DELETE FROM selected_hop WHERE id = ?", [id]);
+}
+
+export async function getAllSelectedHops() {
+  const database = await db;
+  return await database.getAllAsync("SELECT * FROM selected_hop");
 }
 
 //BEER STYLE????
@@ -107,10 +172,12 @@ export async function logFullDatabase() {
   const hops = await database.getAllAsync("SELECT * FROM hops");
   const yeast = await database.getAllAsync("SELECT * FROM yeast");
   const beerStyle = await database.getAllAsync("SELECT * FROM beer_style");
+  const selected_hop = await database.getAllAsync("SELECT * FROM selected_hop");
 
   console.log("🍺 Full DB Dump:");
   console.log("Malts:", malt);
   console.log("Hops:", hops);
   console.log("Yeasts:", yeast);
   console.log("Beer Styles:", beerStyle);
+  console.log("Selected Hops:", selected_hop);
 }

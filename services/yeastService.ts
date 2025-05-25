@@ -1,4 +1,11 @@
-import { deleteYeast, getAllYeasts, insertYeast } from "@/database/queries";
+import {
+  deleteYeast,
+  getAllYeasts,
+  insertYeast,
+  deleteSelectedYeast,
+  getAllSelectedYeasts,
+  insertSelectedYeastAmount,
+} from "@/database/queries";
 import { refreshData } from "./logicService";
 
 export const YeastService = {
@@ -12,5 +19,16 @@ export const YeastService = {
 
   async removeYeast(id: number) {
     await deleteYeast(id);
+  },
+
+  async fetchAllSelected() {
+    return refreshData(getAllSelectedYeasts);
+  },
+
+  async insertYeastAmount(foreignId: number, amountInGrams: number) {
+    await insertSelectedYeastAmount(foreignId, amountInGrams);
+  },
+  async removeSelectedYeast(id: number) {
+    await deleteSelectedYeast(id);
   },
 };

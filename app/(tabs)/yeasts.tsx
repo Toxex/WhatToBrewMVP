@@ -1,27 +1,48 @@
 import { Image } from "expo-image";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { YeastService } from "@/services/yeastService";
-import { useEffect, useState } from "react";
 
-export default function Yeastcreen() {
+export default function YeastScreen() {
   const [yeasts, setYeasts] = useState<any[]>([]);
+  const [selectedYeasts, setSelectedYeasts] = useState<any[]>([]);
+  const [selectedYeastId, setSelectedYeastId] = useState<number | null>(null);
+  const [amount, setAmount] = useState("");
+
+  const yeastOptions = yeasts.map((yeast) => ({
+    label: yeast.name,
+    value: yeast.id,
+  }));
 
   useEffect(() => {
     async function loadYeasts() {
-      const result = await YeastService.fetchAll();
-      setYeasts(result);
-      // await YeastService.addYeast("US-05", "Fermentis", 84, 3);
+      const allYeasts = await YeastService.fetchAll();
+      const selected = await YeastService.fetchAllSelected();
+      setYeasts(allYeasts);
+      if (selected) setSelectedYeasts(selected);
     }
     loadYeasts();
   }, []);
 
   async function handleReload() {
-    const result = await YeastService.fetchAll();
-    setYeasts(result);
+    const allYeasts = await YeastService.fetchAll();
+    const selected = await YeastService.fetchAllSelected();
+    setYeasts(allYeasts);
+    if (selected) setSelectedYeasts(selected);
+  }
+
+  async function handleAdd() {
+    if (selectedYeastId !== null && amount) {
+      await YeastService.insertYeastAmount(selectedYeastId, parseInt(amount));
+      await handleReload();
+      setAmount("");
+      setSelectedYeastId(null);
+    }
   }
 
   return (
@@ -37,112 +58,51 @@ export default function Yeastcreen() {
     >
       <ThemedView>
         <ThemedText type="title">List of Yeasts</ThemedText>
-        <ThemedText type="default">
-          {yeasts.map((yeast, id) => (
-            <Text key={id}>
-              {JSON.stringify(yeast)}
-              <TouchableOpacity
-                onPress={async () => {
-                  await YeastService.removeYeast(yeast.id);
-                  await handleReload();
-                }}
-                style={styles.deleteButton}
-              >
-                <Text style={styles.cross}>×</Text>
-              </TouchableOpacity>
-            </Text>
-          ))}
-        </ThemedText>
-        {/* MAKE ALL THE LISTS COLLAPSIBLES?!?!?! */}
+        {selectedYeasts.map((yeast, id) => (
+          <ThemedView key={id} style={styles.yeastRow}>
+            <Text style={styles.yeastText}>{JSON.stringify(yeast)}</Text>
+            <TouchableOpacity
+              onPress={async () => {
+                await YeastService.removeSelectedYeast(yeast.id);
+                await handleReload();
+              }}
+              style={styles.deleteButton}
+            >
+              <Text style={styles.cross}>×</Text>
+            </TouchableOpacity>
+          </ThemedView>
+        ))}
       </ThemedView>
-      {/* <ThemedText>
-        This app includes example code to help you get started.
-      </ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          and{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{" "}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the
-          web version, press <ThemedText type="defaultSemiBold">w</ThemedText>{" "}
-          in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the{" "}
-          <ThemedText type="defaultSemiBold">@2x</ThemedText> and{" "}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to
-          provide files for different screen densities
-        </ThemedText>
-        <Image
-          source={require("@/assets/images/react-logo.png")}
-          style={{ alignSelf: "center" }}
+
+      <ThemedView>
+        <ThemedText type="subtitle">Add Yeast</ThemedText>
+      </ThemedView>
+
+      <Dropdown
+        style={styles.dropdown}
+        selectedTextStyle={styles.selectedTextStyle}
+        placeholderStyle={styles.placeholderStyle}
+        data={yeastOptions}
+        labelField="label"
+        valueField="value"
+        placeholder="Select yeast"
+        value={selectedYeastId}
+        onChange={(item) => setSelectedYeastId(item.value)}
+      />
+
+      <ThemedView style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={setAmount}
+          placeholder="Number of packages"
+          placeholderTextColor={"white"}
+          keyboardType="numeric"
+          value={amount}
         />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText>{" "}
-          to see how to load{" "}
-          <ThemedText style={{ fontFamily: "SpaceMono" }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{" "}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook
-          lets you inspect what the user&apos;s current color scheme is, and so
-          you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{" "}
-          <ThemedText type="defaultSemiBold">
-            components/HelloWave.tsx
-          </ThemedText>{" "}
-          component uses the powerful{" "}
-          <ThemedText type="defaultSemiBold">
-            react-native-reanimated
-          </ThemedText>{" "}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The{" "}
-              <ThemedText type="defaultSemiBold">
-                components/ParallaxScrollView.tsx
-              </ThemedText>{" "}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible> */}
+        <TouchableOpacity onPress={handleAdd}>
+          <Text style={{ fontSize: 24 }}>💾</Text>
+        </TouchableOpacity>
+      </ThemedView>
     </ParallaxScrollView>
   );
 }
@@ -155,20 +115,55 @@ const styles = StyleSheet.create({
     left: -35,
     position: "absolute",
   },
-  titleContainer: {
-    gap: 8,
+  yeastRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 4,
+  },
+  yeastText: {
+    color: "white",
+    flex: 1,
   },
   deleteButton: {
-    padding: 4,
-    marginLeft: 10,
     backgroundColor: "transparent",
+    margin: 0,
   },
   cross: {
     color: "red",
-    fontSize: 24,
+    marginLeft: 10,
+    fontSize: 25,
     fontWeight: "bold",
   },
-  yeast: {
-    marginTop: 200,
+  dropdown: {
+    borderWidth: 1,
+    height: 40,
+    width: 150,
+    padding: 10,
+    borderColor: "white",
+    color: "white",
+    marginTop: 10,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    color: "white",
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    color: "white",
+  },
+  input: {
+    borderWidth: 1,
+    height: 40,
+    width: 170,
+    padding: 10,
+    borderColor: "white",
+    color: "white",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginTop: 10,
   },
 });
